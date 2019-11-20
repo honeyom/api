@@ -1,0 +1,386 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API文档中心",
+        "contact": {
+            "name": "代先华",
+            "url": "hc1989.com",
+            "email": "d536819@sina.cn"
+        },
+        "version": "3.0"
+    },
+    "servers": [
+        {
+            "url": "http://106.54.212.105:8088"
+        }
+    ],
+    "paths": {
+        "/api/v1/users": {
+            "post": {
+                "tags": [
+                    "用户注册"
+                ],
+                "summary": "用户注册地址",
+                "operationId": "App\\Http\\Controllers\\Api\\UserController::store",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "用户名",
+                        "required": true,
+                        "allowEmptyValue": false,
+                        "style": "form",
+                        "explode": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "ddd"
+                    },
+                    {
+                        "name": "password",
+                        "in": "query",
+                        "description": "密码",
+                        "required": true,
+                        "allowEmptyValue": false,
+                        "style": "form",
+                        "explode": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "123456"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "响应成功"
+                    },
+                    "400": {
+                        "description": "响应失败"
+                    }
+                }
+            }
+        },
+        "/api/v1/login": {
+            "post": {
+                "tags": [
+                    "获取token值"
+                ],
+                "summary": "返回用户登陆的token值",
+                "operationId": "App\\Http\\Controllers\\Api\\UserController::login",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "登录名",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "xander13"
+                    },
+                    {
+                        "name": "password",
+                        "in": "query",
+                        "description": "登陆密码",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "123456"
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "请求成功"
+                    },
+                    "400": {
+                        "description": "请求失败"
+                    }
+                }
+            }
+        },
+        "/api/v1/personalInfo": {
+            "post": {
+                "tags": [
+                    "身份证实名认证"
+                ],
+                "summary": "身份证实名认证",
+                "operationId": "App\\Http\\Controllers\\Api\\UserController::personalInfo",
+                "parameters": [
+                    {
+                        "name": "idcard",
+                        "in": "query",
+                        "description": "身份证号码",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "513022199107121677"
+                    },
+                    {
+                        "name": "realname",
+                        "in": "query",
+                        "description": "姓名",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "代先华"
+                    }
+                ],
+                "responses": {
+                    "205": {
+                        "description": "请求成功"
+                    },
+                    "400": {
+                        "description": "请求失败"
+                    }
+                }
+            }
+        },
+        "/api/v1/vendor/store": {
+            "post": {
+                "tags": [
+                    "商家保证金"
+                ],
+                "summary": "商家入驻后需要的费用",
+                "operationId": "App\\Http\\Controllers\\Api\\VendorController::store",
+                "parameters": [
+                    {
+                        "name": "member_id",
+                        "in": "query",
+                        "description": "会员id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "sg_id",
+                        "in": "query",
+                        "description": "店铺等级",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "joinin_year",
+                        "in": "query",
+                        "description": "加入年限",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "func_cost",
+                        "in": "query",
+                        "description": "功能费用",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "deposit",
+                        "in": "query",
+                        "description": "保证金",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "请求成功"
+                    },
+                    "400": {
+                        "description": "请求失败"
+                    }
+                }
+            }
+        },
+        "/api/v1/vendorValidate ": {
+            "post": {
+                "tags": [
+                    "企业工商信息认证"
+                ],
+                "summary": "企业工商信息认证",
+                "operationId": "App\\Http\\Controllers\\Api\\VendorController::VendorValidate",
+                "parameters": [
+                    {
+                        "name": "business_licence_number",
+                        "in": "query",
+                        "description": "营业执照号",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "organization_code",
+                        "in": "query",
+                        "description": "组织机构代码",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "company_name",
+                        "in": "query",
+                        "description": "营业执照号",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "请求成功"
+                    },
+                    "400": {
+                        "description": "请求失败"
+                    }
+                }
+            }
+        },
+        "/api/v1/requestChain": {
+            "get": {
+                "tags": [
+                    "区块链浏览器"
+                ],
+                "summary": "请求区块链的原始数据,跳转到enLogindata处理业务,产生加密token",
+                "operationId": "App\\Http\\Controllers\\Api\\VendorController::requestChain",
+                "parameters": [
+                    {
+                        "name": "",
+                        "in": "query",
+                        "description": "null",
+                        "allowEmptyValue": true,
+                        "schema": {
+                            "type": "String"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "请求成功"
+                    },
+                    "400": {
+                        "description": "请求失败"
+                    }
+                }
+            }
+        },
+        "/api/v1/sendYj": {
+            "get": {
+                "tags": [
+                    "修改佣金比例"
+                ],
+                "summary": "修改佣金比例",
+                "operationId": "App\\Http\\Controllers\\Api\\VendorController::sendYj",
+                "parameters": [
+                    {
+                        "name": "level",
+                        "in": "query",
+                        "description": "分佣级别",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "3"
+                    },
+                    {
+                        "name": "b",
+                        "in": "query",
+                        "description": "一级分佣比例",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "10"
+                    },
+                    {
+                        "name": "c",
+                        "in": "query",
+                        "description": "二级分佣比例",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "80"
+                    },
+                    {
+                        "name": "d",
+                        "in": "query",
+                        "description": "三级分佣比例",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "10"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "请求成功"
+                    },
+                    "400": {
+                        "description": "请求失败"
+                    }
+                }
+            }
+        },
+        "/api/v1/getYj": {
+            "get": {
+                "tags": [
+                    "获取VendorValidate佣金金额"
+                ],
+                "summary": "获取佣金金额",
+                "operationId": "App\\Http\\Controllers\\Api\\VendorController::getGoodsCommission",
+                "parameters": [
+                    {
+                        "name": "gid",
+                        "in": "query",
+                        "description": "商品id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "member_id",
+                        "in": "query",
+                        "description": "推手会员",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "spreader_deep",
+                        "in": "query",
+                        "description": "第几级佣金,最多三级",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "1"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "请求成功"
+                    },
+                    "400": {
+                        "description": "请求失败"
+                    }
+                }
+            }
+        }
+    }
+}
