@@ -1,4 +1,6 @@
 <p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
+
+
 ## 把本地项目托管到git远程仓库,并新建分支
   1. git init 2. git remote add origin http://192.168.2.253/d5368190/test.git
  3. git checkout -b dbg_lichen_star 
@@ -6,7 +8,9 @@
  5. git add . 
  6. git commit -m "Initial commit" 
  7. git push -u origin master
+ 
 ## env文件的API配置
+
 1. API_PREFIX=api
 2. API_VERSION=v1
 3. API_DOMAIN=study.test
@@ -23,6 +27,7 @@ CREATE TABLE `users` (
 `updated_at` TIMESTAMP NULL DEFAULT NULL COMMENT '修改时间' 
 ) ENGINE = INNODB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 ```
+
 <p align="center">
 <a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
