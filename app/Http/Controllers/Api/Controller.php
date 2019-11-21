@@ -17,6 +17,6 @@ use App\Http\Controllers\Controller as BaseController;
 class Controller extends BaseController
 {
 
-    use ApiResponse,SyncFunc;
+    use ApiResponse,SyncFunc,DispatchesJobs;
     // 其他通用的Api帮助函数
 }

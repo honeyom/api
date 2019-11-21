@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Api\Helpers\RsaHandle;
 use App\Http\Requests\Api\VendorRequest;
+use App\Jobs\Api\sendCommission;
 use App\Models\BbcVendorJoinin;
 use Carbon\Carbon;
 use http\Url;
@@ -70,39 +71,37 @@ class VendorController extends Controller
     }
     /**
      * @param VendorRequest $vendorRequest
-     * @Post(path="/api/v1/vendorValidate ",tags={"企业工商信息认证"},summary="企业工商信息认证",
+     * @Post(path="/api/v1/vendorValidate ",tags={"企业工商信息认证(传其一即可)"},summary="企业工商信息认证",
      *     @Parameter(name="business_licence_number",description="营业执照号",required=false,in="query",@Schema(type="string")),
      *     @Parameter(name="organization_code",description="组织机构代码",required=false,in="query",@Schema(type="string")),
-     *     @Parameter(name="company_name",description="营业执照号",required=false,in="query",@Schema(type="string")),
      *     @Response(response="200",description="请求成功"),
      *     @Response(response="400",description="请求失败")
      * )
      */
     public function VendorValidate(VendorRequest $vendorRequest){
         $business_licence_number=$vendorRequest->business_licence_number;//营业执照号
-        $company_name=$vendorRequest->company_name;//公司名称
+//        $company_name=$vendorRequest->company_name;//公司名称
         $organization_code=$vendorRequest->organization_code;//组织机构代码
         $commi=[
             'business_licence_number'=>$business_licence_number??0,
             'organization_code'=>$organization_code??0,
-            'company_name'=>$company_name??0,
+//            'company_name'=>$company_name??0,
         ];
-        if(!$business_licence_number){
-//            if(0);
-        }
         $keyword=$commi[array_rand($commi,1)];
-        switch ($keyword){
-            case business_licence_number:
+        if ($keyword && $keyword !==0){
+            $juheResult=$this->PostRequestData(getenv('JuheApi'),[
+                'key'=>getenv('juheVendorAppKey'),
+                'keyword'=>$keyword,
+            ]);
+            $total=$juheResult['result']['data']['total'];
+            if((0 == intval($juheResult['error_code']))  && ($total>=0)  ){
+                return $this->setStatusCode(200)->success('success');
 
+            }
+            return $this->failed('认证失败',$juheResult['error_code']);
         }
-        $juheResult=$this->PostRequestData(getenv('JuheApi'),[
-            'key'=>getenv('juheVendorAppKey'),
-            'keyword'=>$keyword,
-        ]);
-        if(! intval($juheResult->error_code)==0){
-            $this->failed('认证失败',$juheResult->error_code);
-        }
-        $this->setStatusCode(200)->success('success');
+        return $this->failed('认证失败',$GLOBALS['juheResult']['error_code']);
+
     }
     public function test()
     {
@@ -287,7 +286,9 @@ class VendorController extends Controller
 
             //同步佣金和佣金订单到k3或者其他系统
             if (!empty($yj_data) && !empty($order_data)) {
-                    $result=$this->PostRequestData(getenv('K3_URL'),$order_data);
+            //        加入到结算队列
+                    $result=dispatch(new sendCommission(getenv('K3_URL'),$order_data));
+//                    $result=$this->PostRequestData(getenv('K3_URL'),$order_data);
                     if($result){
                         //某个同步失败的标记
                         if($result['code']==23){
@@ -298,7 +299,8 @@ class VendorController extends Controller
                     }
                     $order_data['process']=3;
                     $yj_data['process']=3;
-                    $yjresult=$this->PostRequestData(getenv('K3_URL'),$yj_data);
+                $yjresult=dispatch(new sendCommission(getenv('K3_URL'),$yj_data));
+//                    $yjresult=$this->PostRequestData(getenv('K3_URL'),$yj_data);
                 if($yjresult){
                     //某个同步失败的标记
                     if($yjresult['code']==23){
