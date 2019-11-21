@@ -24,6 +24,10 @@ use Tymon\JWTAuth\Http\Parser\InputSource;
 
 class VendorController extends Controller
 {
+
+    public function queue($url,$arr){
+        dispatch(new sendCommission($url,$arr));
+    }
     /**
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
@@ -287,7 +291,7 @@ class VendorController extends Controller
             //同步佣金和佣金订单到k3或者其他系统
             if (!empty($yj_data) && !empty($order_data)) {
             //        加入到结算队列
-                    $result=dispatch(new sendCommission(getenv('K3_URL'),$order_data));
+                    $result=$this->queue(getenv('K3_URL'),$order_data);
 //                    $result=$this->PostRequestData(getenv('K3_URL'),$order_data);
                     if($result){
                         //某个同步失败的标记
@@ -299,7 +303,7 @@ class VendorController extends Controller
                     }
                     $order_data['process']=3;
                     $yj_data['process']=3;
-                $yjresult=dispatch(new sendCommission(getenv('K3_URL'),$yj_data));
+                    $yjresult=$this->queue(getenv('K3_URL'),$yj_data);
 //                    $yjresult=$this->PostRequestData(getenv('K3_URL'),$yj_data);
                 if($yjresult){
                     //某个同步失败的标记
@@ -315,10 +319,8 @@ class VendorController extends Controller
         }
         //无推手订单.
         else {
-
             //todo 直接进入结算队列
-
-
+           $this->queue(getenv('K3_URL'),$order_info);
         }
 
     }
