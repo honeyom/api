@@ -12,6 +12,7 @@ Route::namespace('Api')->prefix('v1')->middleware('cors')->group(function () {
     Route::post('/encode','VendorController@enLogindata');
     Route::post('/vendorValidate','VendorController@VendorValidate')->name('verify.vendor');//企业工商信息认证
     Route::post('/personalInfo','UserController@personalInfo')->name('verify.personal');//身份证实名认证
+    Route::post('/invoice','InvoiceController@');
     Route::post('/users','UserController@store')->name('users.store');
     //用户登录
     Route::post('/login','UserController@login')->name('users.login');
