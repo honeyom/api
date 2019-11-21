@@ -24,34 +24,6 @@ use Tymon\JWTAuth\Http\Parser\InputSource;
 class VendorController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-
-    public function __construct()
-    {
-
-    }
-
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      * 商家保证金+功能费+会员费
@@ -65,7 +37,6 @@ class VendorController extends Controller
      *     @Response(response="400",description="请求失败")
      * )
      */
-
     public function store(VendorRequest $vendorRequest)
     {
 
@@ -97,7 +68,6 @@ class VendorController extends Controller
         BbcVendorJoinin::update(['process' => '3']);
         return $this->failed('同步失败', 404);
     }
-
     /**
      * @param VendorRequest $vendorRequest
      * @Post(path="/api/v1/vendorValidate ",tags={"企业工商信息认证"},summary="企业工商信息认证",
@@ -108,7 +78,6 @@ class VendorController extends Controller
      *     @Response(response="400",description="请求失败")
      * )
      */
-
     public function VendorValidate(VendorRequest $vendorRequest){
         $business_licence_number=$vendorRequest->business_licence_number;//营业执照号
         $company_name=$vendorRequest->company_name;//公司名称
@@ -126,7 +95,6 @@ class VendorController extends Controller
             case business_licence_number:
 
         }
-
         $juheResult=$this->PostRequestData(getenv('JuheApi'),[
             'key'=>getenv('juheVendorAppKey'),
             'keyword'=>$keyword,
@@ -136,54 +104,6 @@ class VendorController extends Controller
         }
         $this->setStatusCode(200)->success('success');
     }
-
-    //同步
-
-    /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
-
     public function test()
     {
         $data = 'data,我是testdata';
@@ -368,7 +288,6 @@ class VendorController extends Controller
             //同步佣金和佣金订单到k3或者其他系统
             if (!empty($yj_data) && !empty($order_data)) {
                     $result=$this->PostRequestData(getenv('K3_URL'),$order_data);
-
                     if($result){
                         //某个同步失败的标记
                         if($result['code']==23){
@@ -394,6 +313,9 @@ class VendorController extends Controller
         }
         //无推手订单.
         else {
+
+            //todo 直接进入结算队列
+
 
         }
 
