@@ -61,7 +61,7 @@ class VendorController extends Controller
             ->get()->toArray();
         $sg_price = (intval($result[0]->sg_price));
         $paying_amount = $func_cost + $deposit + $sg_id * $joinin_year * $sg_price;// 付款总金额   功能费+会员费+保证金
-        $amount = $vendor_info['paying_amount'] ?? 0;//判断付款总金额的数据库存的值是否与计算的相等
+        $amount = isset($vendor_info['paying_amount']) ?$vendor_info['paying_amount']: 0;//判断付款总金额的数据库存的值是否与计算的相等
         if ($amount == $paying_amount) {
             //同步k3财务
             $result = $this->PostRequestData(getenv('K3_URL'), [
@@ -87,9 +87,9 @@ class VendorController extends Controller
 //        $company_name=$vendorRequest->company_name;//公司名称
         $organization_code=$vendorRequest->organization_code;//组织机构代码
         $commi=[
-            'business_licence_number'=>$business_licence_number??0,
-            'organization_code'=>$organization_code??0,
-//            'company_name'=>$company_name??0,
+            'business_licence_number'=>$business_licence_number?$business_licence_number:0,
+            'organization_code'=>$organization_code?$organization_code:0,
+//            'company_name'=>$company_name?$company_name:0,
         ];
         $keyword=$commi[array_rand($commi,1)];
         if ($keyword && $keyword !==0){
@@ -405,10 +405,10 @@ class VendorController extends Controller
     //修改佣金比例
     public function sendYj($level, $b, $c, $d)
     {
-        $level = isset($level) ?? 3;
-        $b = isset($b) ?? 10;
-        $c = isset($c) ?? 80;
-        $d = isset($d) ?? 10;
+        $level = isset($level) ?$level:3;
+        $b = isset($b) ?$b:10;
+        $c = isset($c) ?$c:80;
+        $d = isset($d) ?$d:10;
         Db::table('bbc_ssys_setting')->where("name", "=", "ssys_yj_percent")->update([
             'value' => serialize([
                 'a' => $level,

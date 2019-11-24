@@ -24,23 +24,39 @@ use OpenApi\Annotations\Server;
 class UserController extends Controller
 
 {
-
-    //返回用户列表
-    public function index()
+    /**
+     * @param $key
+     * @param Request $request
+     * @return mixed
+     *   /**
+     * @Post(path="/api/v1/personalInfo",tags={"身份证实名认证"},summary="身份证实名认证",
+     *     @Parameter(name="idcard",description="身份证号码",required=true,in="query",example="513022199107121677",@Schema(type="string")),
+     *     @Parameter(name="realname",description="姓名",required=true,in="query",example="代先华",@Schema(type="string")),
+     *     @Response(response="205",description="请求成功"),
+     *     @Response(response="400",description="请求失败")
+     *
+     * )
+     */
+    public function personalInfo(Request $request)
     {
-        //3个用户为一页
-        $users = User::paginate(3);
-        return UserResource::collection($users);
-    }
+        $key=getenv('juhePersonalAppkey');
+        $idcard=$request->idcard;//身份证号码
+        $realname=$request->realname;//姓名
 
-    //返回单一用户信息
-    public function show(User $user)
-    {
-        return $this->success(new UserResource($user));
+        $result=$this->PostRequestData(getenv('juhePersonalApi'),[
+            'key'=>$key,
+            'idcard'=>$idcard,
+            'realname'=>$realname,
+        ]);
+        if(0 !== intval($result['error_code'])) {
+            return  $this->failed('认证失败', $result->error_code);
+        }
+        if(1==$result['result']['res']){
+            return $this->setStatusCode(205)->success('success');
+        }
+        return $this->failed('认证失败', 400);
     }
-
     //用户注册
-
     /**
      * @param UserRequest $request
      * @return mixed
@@ -75,54 +91,29 @@ class UserController extends Controller
         }
         return $this->failed('账号或密码错误', 400);
     }
-
-//用户退出
+    //返回用户列表
+    public function index()
+    {
+        //3个用户为一页
+        $users = User::paginate(3);
+        return UserResource::collection($users);
+    }
+    //返回单一用户信息
+    public function show(User $user)
+    {
+        return $this->success(new UserResource($user));
+    }
+    //用户退出
     public function logout()
     {
         Auth::guard('api')->logout();
         return $this->success('退出成功...');
     }
-
-//返回当前登录用户信息
+    //返回当前登录用户信息
     public function info()
     {
         $user = Auth::guard('api')->user();
         return $this->success(new UserResource($user));
     }
 
-
-    /**
-     * @param $key
-     * @param Request $request
-     * @return mixed
-     *   /**
-     * @Post(path="/api/v1/personalInfo",tags={"身份证实名认证"},summary="身份证实名认证",
-     *     @Parameter(name="idcard",description="身份证号码",required=true,in="query",example="513022199107121677",@Schema(type="string")),
-     *     @Parameter(name="realname",description="姓名",required=true,in="query",example="代先华",@Schema(type="string")),
-     *     @Response(response="205",description="请求成功"),
-     *     @Response(response="400",description="请求失败")
-     *
-     * )
-     */
-
-    public function personalInfo(Request $request)
-    {
-        $key=getenv('juhePersonalAppkey');
-        $idcard=$request->idcard;//身份证号码
-        $realname=$request->realname;//姓名
-
-        $result=$this->PostRequestData(getenv('juhePersonalApi'),[
-            'key'=>$key,
-            'idcard'=>$idcard,
-            'realname'=>$realname,
-        ]);
-        if(0 !== intval($result['error_code'])) {
-           return  $this->failed('认证失败', $result->error_code);
-        }
-        if(1==$result['result']['res']){
-            return $this->setStatusCode(205)->success('success');
-        }
-        return $this->failed('认证失败', 400);
-
-    }
 }
