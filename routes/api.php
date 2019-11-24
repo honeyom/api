@@ -40,7 +40,8 @@ Route::namespace('Api')->prefix('v1')->middleware('cors')->group(function () {
 
 
     Route::put('order/sync','OrderController@payAfter')->name('OrderController.payAfter');//同步订单接口
-    Route::put('order/sync','OrderController@payAfter')->name('OrderController.payAfter');//订单结算同步
+    Route::put('order/settle','OrderController@payAfter')->name('OrderController.settle');//订单结算同步
+    Route::post('order/Return','ReturnController@applayRefound')->name('ReturnController.Return');//订单退款同步
 
 
 

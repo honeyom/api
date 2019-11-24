@@ -41,16 +41,26 @@ class OrderController extends Controller
            BbcOrder::update(['process'=>2,]);
        }
    }
+
+    /**
+     * @Put(path="/api/v1/order/settle",tags={"同步结算接口"},summary="同步结算接口",
+     *    @Parameter(name="order_sn",description="订单号",in="query",@Schema(type="string")),
+     *      @Response(response="200",description="请求成功"),
+     *     @Response(response="400",description="请求失败")
+     * )
+     *
+     */
    //订单结算同步
    public function settlement(BbcOrderBill $order){
+
             $result=$this->dispatch(new sendCommission(getenv('K3_URL'),$order));
         if($result){
            //某个同步失败的标记
            if($result['code']==23){
-               BbcOrder::update(['process'=>3,]);
+               BbcOrderBill::update(['process'=>3,]);
            }
            //同步成功
-           BbcOrder::update(['process'=>2,]);
+            BbcOrderBill::update(['process'=>2,]);
        }
    }
 }
