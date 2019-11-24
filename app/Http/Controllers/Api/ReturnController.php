@@ -48,6 +48,7 @@ class ReturnController extends Controller
                 return $this->failed('退款单号不存在,请重新检查',405);
             }
             $requestData=BbcOrder::query()->where('order_sn',$request->input('order_sn'))->get();
+//            $requestData['refund_amount']=$requestData['refund_amount']-佣金
             $result=$this->dispatch(new sendCommission(getenv('K3_URL'),$requestData));
             if($result){
                 //某个同步失败的标记
