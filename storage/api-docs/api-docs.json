@@ -15,6 +15,88 @@
         }
     ],
     "paths": {
+        "/api/v1/chain/test": {
+            "get": {
+                "tags": [
+                    "区块链加解密测试"
+                ],
+                "summary": "区块链加解密测试",
+                "operationId": "App\\Http\\Controllers\\Api\\ChainController::test",
+                "parameters": [
+                    {
+                        "name": "",
+                        "in": "query",
+                        "description": "",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "请求成功"
+                    },
+                    "400": {
+                        "description": "请求失败"
+                    }
+                }
+            }
+        },
+        "/api/v1/chain/requestChain": {
+            "get": {
+                "tags": [
+                    "请求区块链浏览器"
+                ],
+                "summary": "请求区块链的原始数据,跳转到enLogindata处理业务,产生加密token",
+                "operationId": "App\\Http\\Controllers\\Api\\ChainController::requestChain",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "携带的用户名",
+                        "allowEmptyValue": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "请求成功"
+                    },
+                    "400": {
+                        "description": "请求失败"
+                    }
+                }
+            }
+        },
+        "/api/v1/order/sync": {
+            "put": {
+                "tags": [
+                    "同步订单接口"
+                ],
+                "summary": "同步订单接口",
+                "operationId": "App\\Http\\Controllers\\Api\\OrderController::payAfter",
+                "parameters": [
+                    {
+                        "name": "order_sn",
+                        "in": "query",
+                        "description": "订单号",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "请求成功"
+                    },
+                    "400": {
+                        "description": "请求失败"
+                    }
+                }
+            }
+        },
         "/api/v1/personalInfo": {
             "post": {
                 "tags": [
@@ -141,9 +223,9 @@
         "/api/v1/vendor/store": {
             "post": {
                 "tags": [
-                    "商家保证金"
+                    "商家费用及信息"
                 ],
-                "summary": "商家入驻后需要的费用",
+                "summary": "商家费用及信息",
                 "operationId": "App\\Http\\Controllers\\Api\\VendorController::store",
                 "parameters": [
                     {
@@ -183,10 +265,10 @@
                         }
                     },
                     {
-                        "name": "deposit",
+                        "name": "store_baozhrmb",
                         "in": "query",
                         "description": "保证金",
-                        "required": true,
+                        "required": false,
                         "schema": {
                             "type": "string"
                         }
@@ -227,140 +309,6 @@
                         "schema": {
                             "type": "string"
                         }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "请求成功"
-                    },
-                    "400": {
-                        "description": "请求失败"
-                    }
-                }
-            }
-        },
-        "/api/v1/requestChain": {
-            "get": {
-                "tags": [
-                    "区块链浏览器"
-                ],
-                "summary": "请求区块链的原始数据,跳转到enLogindata处理业务,产生加密token",
-                "operationId": "App\\Http\\Controllers\\Api\\VendorController::requestChain",
-                "parameters": [
-                    {
-                        "name": "",
-                        "in": "query",
-                        "description": "null",
-                        "allowEmptyValue": true,
-                        "schema": {
-                            "type": "String"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "请求成功"
-                    },
-                    "400": {
-                        "description": "请求失败"
-                    }
-                }
-            }
-        },
-        "/api/v1/sendYj": {
-            "get": {
-                "tags": [
-                    "修改佣金比例"
-                ],
-                "summary": "修改佣金比例",
-                "operationId": "App\\Http\\Controllers\\Api\\VendorController::sendYj",
-                "parameters": [
-                    {
-                        "name": "level",
-                        "in": "query",
-                        "description": "分佣级别",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "3"
-                    },
-                    {
-                        "name": "b",
-                        "in": "query",
-                        "description": "一级分佣比例",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "10"
-                    },
-                    {
-                        "name": "c",
-                        "in": "query",
-                        "description": "二级分佣比例",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "80"
-                    },
-                    {
-                        "name": "d",
-                        "in": "query",
-                        "description": "三级分佣比例",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "10"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "请求成功"
-                    },
-                    "400": {
-                        "description": "请求失败"
-                    }
-                }
-            }
-        },
-        "/api/v1/getYj": {
-            "get": {
-                "tags": [
-                    "获取VendorValidate佣金金额"
-                ],
-                "summary": "获取佣金金额",
-                "operationId": "App\\Http\\Controllers\\Api\\VendorController::getGoodsCommission",
-                "parameters": [
-                    {
-                        "name": "gid",
-                        "in": "query",
-                        "description": "商品id",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "member_id",
-                        "in": "query",
-                        "description": "推手会员",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "spreader_deep",
-                        "in": "query",
-                        "description": "第几级佣金,最多三级",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "1"
                     }
                 ],
                 "responses": {

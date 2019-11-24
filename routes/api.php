@@ -39,6 +39,10 @@ Route::namespace('Api')->prefix('v1')->middleware('cors')->group(function () {
 
 
 
+    Route::put('order/sync','OrderController@payAfter')->name('OrderController.payAfter');//同步订单接口
+    Route::put('order/sync','OrderController@payAfter')->name('OrderController.payAfter');//订单结算同步
+
+
 
     Route::get('/sendYj','CommissionController@sendYj');//修改佣金比例
     Route::get('/getYj','CommissionController@getGoodsCommission');//获取佣金金额

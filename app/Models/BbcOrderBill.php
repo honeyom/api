@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class BbcOrder extends Model
+class BbcOrderBill extends Model
 {
     //
 }

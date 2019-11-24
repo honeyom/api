@@ -6,15 +6,18 @@ use App\Api\Helpers\RsaHandle;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
 use OpenApi\Annotations\Get;
+use OpenApi\Annotations\Parameter;
 use OpenApi\Annotations\Response;
+use OpenApi\Annotations\Schema;
 use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 
 class ChainController extends Controller
 {
     //
-    /***
-     * @Get(path="/api/v1/chain/test",tags={"区块链加解密测试"},summary="区块链加解密测试"
-     * @Response(response="200",description="请求成功"),
+    /**
+     * @Get(path="/api/v1/chain/test",tags={"区块链加解密测试"},summary="区块链加解密测试",
+     *    @Parameter(name="",description="",in="query",@Schema(type="string")),
+     *      @Response(response="200",description="请求成功"),
      *     @Response(response="400",description="请求失败")
      * )
      */
@@ -32,11 +35,8 @@ class ChainController extends Controller
     /**
      * @return mixed
      * @throws TokenExpiredException
-     *
-     *
-     * @Get(path="/api/v1/requestChain",tags={"请求区块链浏览器"},
-     *     summary="请求区块链的原始数据,跳转到enLogindata处理业务,产生加密token",
-     *     @Parameter(name="",description="null",allowEmptyValue=true,in="query",@Schema(type="String")),
+     * @Get(path="/api/v1/chain/requestChain",tags={"请求区块链浏览器"},summary="请求区块链的原始数据,跳转到enLogindata处理业务,产生加密token",
+     *     @Parameter(name="name",description="携带的用户名",allowEmptyValue=true,in="query",@Schema(type="string")),
      *     @Response(response="200",description="请求成功"),
      *     @Response(response="400",description="请求失败")
      * )
