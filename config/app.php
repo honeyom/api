@@ -175,7 +175,6 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
-	App\Providers\EasySmsServiceProvider::class,
 
     ],
 
@@ -229,5 +228,19 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
     ],
+    'rate_limits' => [
+        // 访问频率限制，次数/分钟
+        'access' => [
+            'expires' => env('RATE_LIMITS_EXPIRES', 1),
+            'limit'  => env('RATE_LIMITS', 60),
+        ],
+        // 登录相关，次数/分钟
+        'sign' => [
+            'expires' => env('SIGN_RATE_LIMITS_EXPIRES', 1),
+            'limit'  => env('SIGN_RATE_LIMITS', 10),
+        ],
+    ],
+    //'order_ttl' => 30,//订单未支付占用库存 30秒自动关闭
+    'order_ttl' => 1800,
 
 ];

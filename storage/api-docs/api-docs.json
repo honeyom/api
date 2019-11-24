@@ -15,6 +15,45 @@
         }
     ],
     "paths": {
+        "/api/v1/personalInfo": {
+            "post": {
+                "tags": [
+                    "身份证实名认证"
+                ],
+                "summary": "身份证实名认证",
+                "operationId": "App\\Http\\Controllers\\Api\\UserController::personalInfo",
+                "parameters": [
+                    {
+                        "name": "idcard",
+                        "in": "query",
+                        "description": "身份证号码",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "513022199107121677"
+                    },
+                    {
+                        "name": "realname",
+                        "in": "query",
+                        "description": "姓名",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "代先华"
+                    }
+                ],
+                "responses": {
+                    "205": {
+                        "description": "请求成功"
+                    },
+                    "400": {
+                        "description": "请求失败"
+                    }
+                }
+            }
+        },
         "/api/v1/users": {
             "post": {
                 "tags": [
@@ -99,45 +138,6 @@
                 }
             }
         },
-        "/api/v1/personalInfo": {
-            "post": {
-                "tags": [
-                    "身份证实名认证"
-                ],
-                "summary": "身份证实名认证",
-                "operationId": "App\\Http\\Controllers\\Api\\UserController::personalInfo",
-                "parameters": [
-                    {
-                        "name": "idcard",
-                        "in": "query",
-                        "description": "身份证号码",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "513022199107121677"
-                    },
-                    {
-                        "name": "realname",
-                        "in": "query",
-                        "description": "姓名",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "代先华"
-                    }
-                ],
-                "responses": {
-                    "205": {
-                        "description": "请求成功"
-                    },
-                    "400": {
-                        "description": "请求失败"
-                    }
-                }
-            }
-        },
         "/api/v1/vendor/store": {
             "post": {
                 "tags": [
@@ -205,7 +205,7 @@
         "/api/v1/vendorValidate ": {
             "post": {
                 "tags": [
-                    "企业工商信息认证"
+                    "企业工商信息认证(传其一即可)"
                 ],
                 "summary": "企业工商信息认证",
                 "operationId": "App\\Http\\Controllers\\Api\\VendorController::VendorValidate",
@@ -223,15 +223,6 @@
                         "name": "organization_code",
                         "in": "query",
                         "description": "组织机构代码",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "company_name",
-                        "in": "query",
-                        "description": "营业执照号",
                         "required": false,
                         "schema": {
                             "type": "string"

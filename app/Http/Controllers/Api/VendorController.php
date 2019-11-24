@@ -385,13 +385,6 @@ class VendorController extends Controller
         $decode_code = intval(base64_decode($code) / 20181111);
         return $decode_code;
     }
-
-
-    public function allinpay()
-    {
-
-    }
-
     /**
      * @Get(path="/api/v1/sendYj",tags={"修改佣金比例"},summary="修改佣金比例",
      *     @Parameter(name="level",description="分佣级别",required=true,example="3",in="query",@Schema(type="string")),

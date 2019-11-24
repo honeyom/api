@@ -18,7 +18,9 @@ class UserRequest extends FormRequest
                 {
                     return [
                         'name' => ['required', 'max:12', 'unique:users,name'],
-                        'password' => ['required', 'max:16', 'min:6']
+                        'password' => ['required', 'max:16', 'min:6'],
+//                        'verification_key' => 'required|string',
+//                        'verification_code' => 'required|string',
                     ];
                 }
             case 'PUT':
@@ -43,7 +45,9 @@ class UserRequest extends FormRequest
             'name.max' => '用户名最大长度为12个字符',
             'password.required' => '密码不能为空',
             'password.max' => '密码长度不能超过16个字符',
-            'password.min' => '密码长度不能小于6个字符'
+            'password.min' => '密码长度不能小于6个字符',
+//            'verification_key' => '短信验证码 key',
+//            'verification_code' => '短信验证码',
         ];
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\Api\UserRequest;
 use App\Models\User;
+use Illuminate\Filesystem\Cache;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use OpenApi\Annotations\Contact;
@@ -37,6 +38,7 @@ class UserController extends Controller
      *
      * )
      */
+    //身份证实名认证接口
     public function personalInfo(Request $request)
     {
         $key=getenv('juhePersonalAppkey');
@@ -56,7 +58,7 @@ class UserController extends Controller
         }
         return $this->failed('认证失败', 400);
     }
-    //用户注册
+
     /**
      * @param UserRequest $request
      * @return mixed
@@ -69,9 +71,28 @@ class UserController extends Controller
      *
      * )
      */
+    //用户注册接口
     public function store(UserRequest $request)
     {
         User::create($request->all());
+        return $this->setStatusCode(201)->success('用户注册成功');
+    }
+    //用户注册接口(带手机号码和验证码)
+    public function store1(UserRequest $request){
+        $verifyData=Cache::get($request->verify_key);
+        if(!$verifyData){
+            return $this->response->error('验证码已失效',422);
+        }
+        if(!hash_equals($verifyData['code'],$request->verification_code)){
+            return $this->response->errorUnauthorized('验证码错误');
+        }
+        $user= \App\User::create([
+            'name'=>$request>name,
+            'phone'=>$verifyData['phone'],
+            'password'=>bcrypt($request->password),
+        ]);
+        Cache::forget($request->verify_key);
+        //  return $this->response->created();
         return $this->setStatusCode(201)->success('用户注册成功');
     }
     /**
@@ -82,6 +103,7 @@ class UserController extends Controller
      *     @Response(response="400",description="请求失败")
      * )
      */
+    //用户登录(获取token信息接口)
     public function login(Request $request)
 
     {
@@ -91,14 +113,21 @@ class UserController extends Controller
         }
         return $this->failed('账号或密码错误', 400);
     }
-    //返回用户列表
+
+    //当前用户信息
+    public function info()
+    {
+        $user = Auth::guard('api')->user();
+        return $this->success(new UserResource($user));
+    }
+    //用户列表
     public function index()
     {
         //3个用户为一页
         $users = User::paginate(3);
         return UserResource::collection($users);
     }
-    //返回单一用户信息
+    //用户信息
     public function show(User $user)
     {
         return $this->success(new UserResource($user));
@@ -109,11 +138,9 @@ class UserController extends Controller
         Auth::guard('api')->logout();
         return $this->success('退出成功...');
     }
-    //返回当前登录用户信息
-    public function info()
-    {
-        $user = Auth::guard('api')->user();
-        return $this->success(new UserResource($user));
-    }
+
+
+
+
 
 }
