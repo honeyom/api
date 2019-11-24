@@ -37,3 +37,7 @@ class sendCommission implements ShouldQueue
          return $result;
     }
 }
+
+// .env设置为redis,
+//然后安装composer require predis/predis
+//启动队列处理器php artisan queue:work

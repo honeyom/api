@@ -4,86 +4,39 @@
  */
 namespace App\Http\Controllers\Api;
 
+use App\Events\OrderPaid;
+use App\Jobs\Api\sendCommission;
+use App\Models\BbcOrder;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
+use OpenApi\Annotations\Parameter;
+use OpenApi\Annotations\Put;
+use OpenApi\Annotations\Response;
+use OpenApi\Annotations\Schema;
+
 
 class OrderController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+    /***
+     * @param Request $request
+     * @Put(path="/api/v1/payOrderInfo",tags={"同步订单信息"},summary="同步订单信息",
+     *     @Parameter(name="orderno",description="订单号",required=true,in="query",@Schema(type="string")),
+     *     @Response(response="200",description="请求成功"),
+     *     @Response(response="400",description="同步失败")
+     * )
      */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-//        DB::table('')
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
+   public function payAfter(Request $request){
+       //订单支付成功后触发事件
+       $orderInfo=BbcOrder::query()->where('orderno',$request->orderno);
+        event(new OrderPaid($request->orderno));
+        $result=$this->dispatch(new sendCommission(getenv('K3_URL'),$orderInfo));
+       if($result){
+           //某个同步失败的标记
+           if($result['code']==23){
+           BbcOrder::update(['process'=>3,]);
+           }
+           //同步成功
+           BbcOrder::update(['process'=>2,]);
+       }
+   }
 }

@@ -5,8 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Requests\Api\VendorRequest;
 use App\Models\BbcVendorJoinin;
 use App\Models\VendorDoc;
-use GuzzleHttp\Client;
-use Illuminate\Http\Request;
+
 
 class ContractController extends Controller
 {

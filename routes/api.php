@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
-
 Route::namespace('Api')->prefix('v1')->middleware('cors')->group(function () {
     Route::post('/login','UserController@login')->name('users.login');//用户登录(获取token信息接口)
     Route::group([
@@ -28,23 +26,30 @@ Route::namespace('Api')->prefix('v1')->middleware('cors')->group(function () {
 
     });
 
+    Route::get('vendor/store','VendorController@store')->name('vendor.store');//同步商家信息及所缴纳的费用
+    Route::get('vendor/VendorValidate','VendorController@VendorValidate')->name('vendor.VendorValidate');//企业工商信息认证
 
 
-    Route::get('/test','VendorController@test');
-    Route::get('/sendYj','VendorController@sendYj');//修改佣金
-    Route::get('/getYj','VendorController@getGoodsCommission');//获取佣金金额
-    Route::get('/getCon','VendorController@getCommission');//佣金比例
-    Route::get('/requestChain','VendorController@requestChain')->name('verify.data');
-    Route::post('/encode','VendorController@enLogindata');
-    Route::post('/vendorValidate','VendorController@VendorValidate')->name('verify.vendor');//企业工商信息认证
+
+    Route::get('chain/test','ChainController@test')->name('Chain.test');//区块链加解密测试
+    Route::get('chain/requestChain','ChainController@requestChain')->name('Chain.requestChain');//携带token请求区块链浏览器
+
+    Route::post('contract/store','ContractController@store')->name('contract.store');//新入驻商家自动同步合同,  //商家入驻关联合同入口
+
+
+
+
+
+    Route::get('/sendYj','CommissionController@sendYj');//修改佣金比例
+    Route::get('/getYj','CommissionController@getGoodsCommission');//获取佣金金额
+    Route::get('/getCon','CommissionController@getCommission');//获取佣金比例
+
+
 
 //    Route::post('/invoice','InvoiceController@index');//增开电子发票
     Route::post('/queue','VendorController@queue');//队列
     Route::post('/users','UserController@store')->name('users.store');
 
-
-    Route::post('contract/store','ContractController@store')->name('contract.store');//新入驻商家自动同步合同,  //商家入驻关联合同入口
-    Route::get('vendor/store','VendorController@store')->name('vendor.store');//保证金,功能费,会员费,平台应收
     Route::post('receipt/store','ReceiptController@store')->name('receipt.store');//发票信息,发票信息
     //用户登录
 
