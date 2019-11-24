@@ -25,7 +25,6 @@ Route::namespace('Api')->prefix('v1')->middleware('cors')->group(function () {
         Route::get('/logout','UserController@logout')->name('users.logout');  //用户退出
 
     });
-
     Route::get('vendor/store','VendorController@store')->name('vendor.store');//同步商家信息及所缴纳的费用
     Route::get('vendor/VendorValidate','VendorController@VendorValidate')->name('vendor.VendorValidate');//企业工商信息认证
 
@@ -41,7 +40,8 @@ Route::namespace('Api')->prefix('v1')->middleware('cors')->group(function () {
 
     Route::put('order/sync','OrderController@payAfter')->name('OrderController.payAfter');//同步订单接口
     Route::put('order/settle','OrderController@payAfter')->name('OrderController.settle');//订单结算同步
-    Route::post('order/Return','ReturnController@applayRefound')->name('ReturnController.Return');//订单退款同步
+    Route::put('order/return','ReturnController@applayRefound')->name('ReturnController.applayRefound');//订单退款同步
+
 
 
 

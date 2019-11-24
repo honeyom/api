@@ -97,6 +97,60 @@
                 }
             }
         },
+        "/api/v1/order/settle": {
+            "put": {
+                "tags": [
+                    "同步结算接口"
+                ],
+                "summary": "同步结算接口",
+                "operationId": "App\\Http\\Controllers\\Api\\OrderController::settlement",
+                "parameters": [
+                    {
+                        "name": "order_sn",
+                        "in": "query",
+                        "description": "订单号",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "请求成功"
+                    },
+                    "400": {
+                        "description": "请求失败"
+                    }
+                }
+            }
+        },
+        "/api/v1/order/return": {
+            "put": {
+                "tags": [
+                    "同步退款接口"
+                ],
+                "summary": "同步退款接口",
+                "operationId": "App\\Http\\Controllers\\Api\\ReturnController::applayRefound",
+                "parameters": [
+                    {
+                        "name": "order_sn",
+                        "in": "query",
+                        "description": "订单号",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "请求成功"
+                    },
+                    "400": {
+                        "description": "请求失败"
+                    }
+                }
+            }
+        },
         "/api/v1/personalInfo": {
             "post": {
                 "tags": [
