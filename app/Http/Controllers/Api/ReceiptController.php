@@ -3,6 +3,7 @@
 //发票信息
 namespace App\Http\Controllers\Api;
 
+use App\Http\Requests\Api\ReceiptRequest;
 use App\Models\BbcInvoice;
 use Illuminate\Http\Request;
 class ReceiptController extends Controller
@@ -34,7 +35,7 @@ class ReceiptController extends Controller
      * @return \Illuminate\Http\Response
      *
      */
-    public function store(Request $request)
+    public function store(ReceiptRequest $request)
     {
         //
         /** @var TYPE_NAME $request */

@@ -52,9 +52,7 @@ Route::namespace('Api')->prefix('v1')->middleware('cors')->group(function () {
 
 
 //    Route::post('/invoice','InvoiceController@index');//增开电子发票
-    Route::post('/queue','VendorController@queue');//队列
-    Route::post('/users','UserController@store')->name('users.store');
-
+//    Route::post('/queue','VendorController@queue');//队列
     Route::post('receipt/store','ReceiptController@store')->name('receipt.store');//发票信息,发票信息
     //用户登录
 
