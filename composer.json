@@ -20,7 +20,8 @@
         "predis/predis": "^1.1",
         "swooletw/laravel-swoole": "^2.6",
         "tymon/jwt-auth": "^1.0.0-rc.3",
-        "xethron/migrations-generator": "^2.0"
+        "xethron/migrations-generator": "^2.0",
+        "yunpian/yunpian-php-sdk": "~1.0"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",

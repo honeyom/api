@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
+use App\BaseModel;
 use Illuminate\Database\Eloquent\Model;
 
-class BbcMember extends Model
+class BbcMember extends BaseModel
 {
     //
 }

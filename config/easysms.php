@@ -20,6 +20,7 @@ return [
         ],
         'yunpian' => [
             'api_key' => env('YUNPIAN_API_KEY'),
+            'signature'=>'【海云舟】',
         ],
     ],
 ];
