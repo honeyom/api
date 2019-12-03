@@ -3,6 +3,7 @@
 Route::namespace('Api')->prefix('v1')->middleware('cors')->group(function () {
     Route::get('RegisterCode', 'VerificationCodeController@RegisterCode')->name('api.verificationCodes.RegisterCode');//注册验证码接口
     Route::get('validateCode', 'VerificationCodeController@validateCode')->name('api.verificationCodes.validateCode');//短信验证码接口
+    Route::get('returnHome', 'VerificationCodeController@returnHomeUrlCode')->name('api.verificationCodes.returnHome');//商家回调验证码接口
     Route::post('/login','UserController@login')->name('users.login');//用户登录(获取token信息接口)
 
     Route::group([
