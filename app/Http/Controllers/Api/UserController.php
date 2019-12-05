@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\Api\UserRequest;
+use App\Models\BbcMember;
 use App\Models\User;
 use Illuminate\Filesystem\Cache;
 use Illuminate\Http\Request;
@@ -54,6 +55,10 @@ class UserController extends Controller
             return  $this->failed('认证失败', $result->error_code);
         }
         if(1==$result['result']['res']){
+            BbcMember::update([
+                'is_verfiy'=>1,
+                'member_truename'=>$realname,
+            ]);
             return $this->setStatusCode(205)->success('success');
         }
         return $this->failed('认证失败', 400);
