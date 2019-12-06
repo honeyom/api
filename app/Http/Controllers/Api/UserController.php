@@ -44,16 +44,18 @@ class UserController extends Controller
     public function personalInfo(Request $request)
     {
         $key=getenv('juhePersonalAppkey');
+
         $idcard=$request->idcard;//身份证号码
         $realname=$request->realname;//姓名
         $member_id=$request->member_id;//member_id
+        if(!isset($idcard) || (!isset($realname))|| (!isset($member_id))){return $this->failed('认证失败,缺少参数',400);}
         $result=$this->PostRequestData(getenv('juhePersonalApi'),[
             'key'=>$key,
             'idcard'=>$idcard,
             'realname'=>$realname,
         ]);
         if(0 !== intval($result['error_code'])) {
-            return  $this->failed('认证失败', $result->error_code);
+            return  $this->failed('认证失败', $result['error_code']);
         }
         if(1==$result['result']['res']){
             BbcMember::where('member_id',$member_id)->update([
