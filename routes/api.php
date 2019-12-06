@@ -59,3 +59,17 @@ Route::namespace('Api')->prefix('v1')->middleware('cors')->group(function () {
 
 
 });
+
+
+//解决跨域问题
+
+Route::options('/{all}', function(Request $request) {
+    $origin = $request->header('ORIGIN', '*');
+    header("Access-Control-Allow-Origin: $origin");
+    header("Access-Control-Allow-Credentials: true");
+    header('Access-Control-Allow-Methods: POST, GET, OPTIONS, PUT, DELETE');
+    header('Access-Control-Allow-Headers: Origin, Access-Control-Request-Headers,
+     SERVER_NAME, Access-Control-Allow-Headers,Authorization, cache-control, token, 
+     X-Requested-With, Content-Type, Accept, Connection, User-Agent, Cookie');})->where(['all' => '([a-zA-Z0-9-]|/)+']);
+
+
