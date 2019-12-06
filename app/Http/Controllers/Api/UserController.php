@@ -59,7 +59,7 @@ class UserController extends Controller
         }
         if(1==$result['result']['res']){
             BbcMember::where('member_id',$member_id)->update([
-                'is_verfiy'=>1,
+                'is_verify'=>1,
                 'member_truename'=>$realname,
             ]);
             return $this->setStatusCode(205)->success('success');
