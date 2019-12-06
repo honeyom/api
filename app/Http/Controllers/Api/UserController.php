@@ -56,10 +56,10 @@ class UserController extends Controller
             return  $this->failed('认证失败', $result->error_code);
         }
         if(1==$result['result']['res']){
-            BbcMember::update([
+            BbcMember::where(['member_id'=>$member_id,])->update([
                 'is_verfiy'=>1,
                 'member_truename'=>$realname,
-                'member_id'=>$member_id,
+
             ]);
             return $this->setStatusCode(205)->success('success');
         }
@@ -81,8 +81,7 @@ class UserController extends Controller
 
     public function uda(Request $request)
     {
-        BbcMember::update([
-            'member_id'=>156,
+        BbcMember::where('member_id',150)->update([
             'member_truename'=>'234',
             'is_verify'=>'1',
         ]);
