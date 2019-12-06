@@ -31,7 +31,7 @@ class VerificationCodeController extends Controller
 
 
     /**
-     * @return mixed
+     *
      * @Post(path="/api/v1/returnHome",tags={"入驻完成后的跳转地址"},summary="入驻完成后的跳转地址",
      *     @Parameter(name="phone",description="手机号码",required=true,in="query",allowEmptyValue=false,example="18380364842",@Schema(type="string")),
      *     @Response(response="200",description="响应成功"),
