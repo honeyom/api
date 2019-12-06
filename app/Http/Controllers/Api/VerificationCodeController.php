@@ -50,7 +50,7 @@ class VerificationCodeController extends Controller
         $clnt=YunpianClient::create(getenv('YUNPIAN_API_KEY'));
         $param=[
             YunpianClient::MOBILE=>"{$phone}",
-            YunpianClient::TEXT=>"【海云舟】恭喜您开店成功！商家后台地址为：www.horizou.cn/vendor（请使用PC端访问），登陆账号为注册海云舟平台时的账号，请勿透露给他人；海云舟，综合服务交易平台。",
+            YunpianClient::TEXT=>"【海云舟】恭喜您开店成功！商家后台地址为：www.horizou.cn/vendor（请使用PC端访问），登陆账号为注册海云舟平台时的账号，请勿透露给他人；海云舟，让服务交易更简单。",
         ];
         $result=$clnt->sms()->single_send($param);
         return $result;
