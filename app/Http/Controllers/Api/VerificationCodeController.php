@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use OpenApi\Annotations\Parameter;
 use OpenApi\Annotations\Post;
 use OpenApi\Annotations\Response;
+use OpenApi\Annotations\Schema;
 use Yunpian\Sdk\YunpianClient;
 class VerificationCodeController extends Controller
 {
