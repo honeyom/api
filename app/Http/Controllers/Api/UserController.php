@@ -56,10 +56,9 @@ class UserController extends Controller
             return  $this->failed('认证失败', $result->error_code);
         }
         if(1==$result['result']['res']){
-            BbcMember::where(['member_id'=>$member_id,])->update([
+            BbcMember::where('member_id',$member_id)->update([
                 'is_verfiy'=>1,
                 'member_truename'=>$realname,
-
             ]);
             return $this->setStatusCode(205)->success('success');
         }
