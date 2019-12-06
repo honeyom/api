@@ -34,6 +34,7 @@ class UserController extends Controller
      * @Post(path="/api/v1/personalInfo",tags={"身份证实名认证"},summary="身份证实名认证",
      *     @Parameter(name="idcard",description="身份证号码",required=true,in="query",example="513022199107121677",@Schema(type="string")),
      *     @Parameter(name="realname",description="姓名",required=true,in="query",example="代先华",@Schema(type="string")),
+     *     @Parameter(name="member_id",description="member_id",required=true,in="query",example="108",@Schema(type="string")),
      *     @Response(response="205",description="请求成功"),
      *     @Response(response="400",description="请求失败")
      *
