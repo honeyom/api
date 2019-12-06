@@ -167,6 +167,8 @@ class CommissionController extends Controller
         //无推手订单.
         else {
             //todo 直接进入结算队列
+
+
             $this->queue(getenv('K3_URL'),$order_info);
         }
 

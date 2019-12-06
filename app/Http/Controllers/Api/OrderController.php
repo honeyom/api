@@ -90,6 +90,11 @@ class OrderController extends Controller
         //180.00 (订单金额) +0.00(积分金额) - 0.00(货到付款金额) - 0.00 (佣金金额) - 0 (退单金额) + 0.00 (退还佣金) - 0.00 (促销费用)
         //
         //ob_pd_points=$data['pd_points']//积分金额
+
+
+
+
+
    }
 
 }

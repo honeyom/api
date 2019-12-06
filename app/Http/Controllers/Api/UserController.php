@@ -45,7 +45,7 @@ class UserController extends Controller
         $key=getenv('juhePersonalAppkey');
         $idcard=$request->idcard;//身份证号码
         $realname=$request->realname;//姓名
-
+        $member_id=$request->member_id;//member_id
         $result=$this->PostRequestData(getenv('juhePersonalApi'),[
             'key'=>$key,
             'idcard'=>$idcard,
@@ -58,6 +58,7 @@ class UserController extends Controller
             BbcMember::update([
                 'is_verfiy'=>1,
                 'member_truename'=>$realname,
+                'member_id'=>$member_id,
             ]);
             return $this->setStatusCode(205)->success('success');
         }

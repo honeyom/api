@@ -3,21 +3,17 @@
 Route::namespace('Api')->prefix('v1')->middleware('cors')->group(function () {
     Route::get('RegisterCode', 'VerificationCodeController@RegisterCode')->name('api.verificationCodes.RegisterCode');//注册验证码接口
     Route::get('validateCode', 'VerificationCodeController@validateCode')->name('api.verificationCodes.validateCode');//短信验证码接口
-
     Route::post('/login','UserController@login')->name('users.login');//用户登录(获取token信息接口)
-
     Route::group([
         'middleware'=>'throttle',
         'limit'=>config('app.rate_limits.sign.limit'),
         'expires'=>config('app.rate_limits.sign.expires'),
     ],function (){
-
         Route::post('users', 'UserController@store')->name('api.users.store');//用户注册接口
         Route::post('use_phone', 'UserController@store1')->name('api.users.store');//用户注册接口(带手机号码和验证码))
         Route::post('/personalInfo','UserController@personalInfo')->name('verify.personal');//身份证实名认证
         Route::post('returnHome', 'VerificationCodeController@returnHomeUrlCode')->name('api.verificationCodes.returnHome');//商家回调验证码接口
     });
-
     Route::middleware('api.refresh')->group(function () {
 
         Route::get('/users/info','UserController@info')->name('users.info');//当前用户信息
