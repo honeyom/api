@@ -78,6 +78,18 @@ class UserController extends Controller
      *
      * )
      */
+
+    public function uda(Request $request)
+    {
+        BbcMember::update([
+            'member_id'=>156,
+            'member_truename'=>'234',
+            'is_verify'=>'1',
+        ]);
+
+        return  "ok";
+    }
+
     //用户注册接口
     public function store(UserRequest $request)
     {

@@ -178,6 +178,16 @@
                             "type": "string"
                         },
                         "example": "代先华"
+                    },
+                    {
+                        "name": "member_id",
+                        "in": "query",
+                        "description": "member_id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "108"
                     }
                 ],
                 "responses": {
@@ -196,7 +206,7 @@
                     "用户注册"
                 ],
                 "summary": "用户注册地址",
-                "operationId": "App\\Http\\Controllers\\Api\\UserController::store",
+                "operationId": "App\\Http\\Controllers\\Api\\UserController::uda",
                 "parameters": [
                     {
                         "name": "name",
@@ -371,6 +381,36 @@
                     },
                     "400": {
                         "description": "请求失败"
+                    }
+                }
+            }
+        },
+        "/api/v1/returnHome": {
+            "post": {
+                "tags": [
+                    "入驻完成后的跳转地址"
+                ],
+                "summary": "入驻完成后的跳转地址",
+                "operationId": "App\\Http\\Controllers\\Api\\VerificationCodeController::returnHomeUrlCode",
+                "parameters": [
+                    {
+                        "name": "phone",
+                        "in": "query",
+                        "description": "手机号码",
+                        "required": true,
+                        "allowEmptyValue": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "18380364842"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "响应成功"
+                    },
+                    "400": {
+                        "description": "响应失败"
                     }
                 }
             }

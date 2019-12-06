@@ -12,6 +12,7 @@ Route::namespace('Api')->prefix('v1')->middleware('cors')->group(function () {
         Route::post('users', 'UserController@store')->name('api.users.store');//用户注册接口
         Route::post('use_phone', 'UserController@store1')->name('api.users.store');//用户注册接口(带手机号码和验证码))
         Route::post('/personalInfo','UserController@personalInfo')->name('verify.personal');//身份证实名认证
+        Route::post('/uda','UserController@uda')->name('verify.uda');//身份证实名认证测试
         Route::post('returnHome', 'VerificationCodeController@returnHomeUrlCode')->name('api.verificationCodes.returnHome');//商家回调验证码接口
     });
     Route::middleware('api.refresh')->group(function () {
