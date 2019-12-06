@@ -66,6 +66,11 @@ class OrderController extends Controller
        }
    }
 
+
+    /**
+     *
+     *
+     */
     public function settlementInsert()
     {
         //ob_no=date('Y-m',time()).$data['vid']

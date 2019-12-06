@@ -243,7 +243,6 @@ class CommissionController extends Controller
                     $yj_percent = (isset($commissionrate['d']) && $commissionrate['d'] > 0) ? $commissionrate['d'] : 1;
             }
         }
-
         $ssys_goods = db::table('ssys_goods')->where('gid', '=', $gid)->select()->get();
         foreach ($ssys_goods as $key => $ssys_goods_info) {
             if (isset($ssys_goods_info['gid']) && !empty($ssys_goods_info['gid'])) {
