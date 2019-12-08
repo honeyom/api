@@ -34,12 +34,13 @@ class UserController extends Controller
      * @Post(path="/api/v1/personalInfo",tags={"身份证实名认证"},summary="身份证实名认证",
      *     @Parameter(name="idcard",description="身份证号码",required=true,in="query",example="513022199107121677",@Schema(type="string")),
      *     @Parameter(name="realname",description="姓名",required=true,in="query",example="代先华",@Schema(type="string")),
-     *     @Parameter(name="member_id",description="member_id",required=true,in="query",example="108",@Schema(type="string")),
+
      *     @Response(response="205",description="请求成功"),
      *     @Response(response="400",description="请求失败")
      *
      * )
      */
+    //身份证实名认证接口
     //身份证实名认证接口
     public function personalInfo(Request $request)
     {
@@ -48,25 +49,27 @@ class UserController extends Controller
         $idcard=$request->idcard;//身份证号码
         $realname=$request->realname;//姓名
         $member_id=$request->member_id;//member_id
-        if(!isset($idcard) || (!isset($realname))|| (!isset($member_id))){return $this->failed('认证失败,缺少参数',400);}
+        if(!isset($idcard) || (!isset($realname))){return $this->failed('认证失败,缺少参数',400);}
         $result=$this->PostRequestData(getenv('juhePersonalApi'),[
             'key'=>$key,
             'idcard'=>$idcard,
             'realname'=>$realname,
         ]);
         if(0 !== intval($result['error_code'])) {
-            return  $this->failed('认证失败', $result['error_code']);
+            return  $this->failed($result['reason'],400);
         }
-        if(1==$result['result']['res']){
+        if(1==intval($result['result']['res'])){
             BbcMember::where('member_id',$member_id)->update([
                 'is_verify'=>1,
                 'member_truename'=>$realname,
             ]);
             return $this->setStatusCode(205)->success('success');
         }
-        return $this->failed('认证失败', 400);
-    }
-
+	if(2==intval($result['result']['res'])){
+	    return $this->failed('认证失败',400);
+	}	
+        return $this->failed($result['reason'], 400);
+    }	
     /**
      * @param UserRequest $request
      * @return mixed
