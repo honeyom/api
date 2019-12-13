@@ -85,8 +85,7 @@ class UserController extends Controller
 
     public function uda(Request $request)
     {
-        BbcMember::where('member_id',150)->update([
-            'member_truename'=>'234',
+       BbcMember::where('member_id',164)->update([
             'is_verify'=>'1',
         ]);
 

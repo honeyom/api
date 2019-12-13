@@ -41,10 +41,13 @@ class ChainController extends Controller
      *     @Response(response="400",description="请求失败")
      * )
      */
-    public function requestChain($name)
+    public function requestChain($name='')
     {
 //        $key=str_pad(random_int(1, 9999), 6, 0, STR_PAD_LEFT)."@verify@".str_random(15).md5(uniqid());
-        $key = "@verify@";
+	$keydata=$this->GetRequestData('http://52.82.73.52:8080/auth/nonce',['']);
+	return $keydata;
+	$key=$keydata['result'];
+        //$key = "@verify@";
         $name = isset($name)?$name:'horizou';
         $expiredAt = strtotime(now()->addMinutes(1));
 //        $time=date('Y-m-d H:i:s',$expiredAt);
