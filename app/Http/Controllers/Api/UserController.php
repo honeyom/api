@@ -49,6 +49,8 @@ class UserController extends Controller
         $idcard=$request->idcard;//身份证号码
         $realname=$request->realname;//姓名
         $member_id=$request->member_id;//member_id
+        $result=BbcMember::where('member_id',$member_id)->select();
+        if($result) return $this->failed('认证失败,已实名认证过'，400);
         if(!isset($idcard) || (!isset($realname))){return $this->failed('认证失败,缺少参数',400);}
         $result=$this->PostRequestData(getenv('juhePersonalApi'),[
             'key'=>$key,
